@@ -22,6 +22,12 @@ body{
     display: none;
 }
 
+.hide-home{
+    background:red;
+    height: 0 !important;
+    max-height: 0 !important;
+}
+
 @media screen and (min-width: 993px) and (max-width:2200px){
     .left-nav{
         height: 100vh !important;

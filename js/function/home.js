@@ -1,14 +1,3 @@
-function setColor(value, elem) {
-    resetColor(elem);
-    if (value < 50) {
-        elem.classList.add('green-text');
-    } else if (value >= 50 && value < 75) {
-        elem.classList.add('yellow-text');
-    } else {
-        elem.classList.add('red-text');
-    }
-}
-
 function resetColor(elem) {
     elem.classList.remove('green-text');
     elem.classList.remove('yellow-text');
@@ -43,4 +32,33 @@ function hideMenu(){
     arr.classList.remove('hide');
     cl.classList.add('hide');
     nav.classList.remove('show-nav');
+}
+
+function goAdmin(){
+    hideMenu();
+    resetNav();
+
+    document.getElementById('admin-panel').classList.remove('hide-home');   
+}
+function goHome(){
+    hideMenu();
+    resetNav();
+
+    document.getElementById('stats-home').classList.remove('hide-home');
+}
+
+function resetNav(){
+    document.getElementById('stats-home').classList.add('hide-home');
+    document.getElementById('admin-panel').classList.add('hide-home');
+}
+
+function setColor(value, elem) {
+    resetColor(elem);
+    if (value < 50) {
+        elem.classList.add('green-text');
+    } else if (value >= 50 && value < 75) {
+        elem.classList.add('yellow-text');
+    } else {
+        elem.classList.add('red-text');
+    }
 }
