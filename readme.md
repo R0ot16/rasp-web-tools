@@ -11,13 +11,4 @@
 - go to stats directory
 - node index.js
 
-- Now, go on your Rasperry IP
-
-# how find my raspberry ip
-## local
-- in cmd : ifconfig
-- find line : inet 192.168.1.xx
-
-## online
-### with other pc in same network
-- go on https://myip.com and get your ip
+- Now, go on your Rasperry IP or domain
