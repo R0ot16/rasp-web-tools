@@ -105,26 +105,25 @@
 				</div>
 			</div>
 			<div id="admin-panel" class="row hide-home">
-				admin
-			</div>
-		</div>
-		<div class="row hide">
-			<div class="row hide" id="tools">
-				<div class="col">
-					<button class="btn red" onclick="reboot()">Reboot Raspberry</button>
+				<div class="col s6">
+					<div class="row">
+						<form class="col s12 white" onclick="return false;">
+							<div class="input-field col s12">
+								<input id="id" type="text" class="validate">
+								<label for="id">Username</label>
+							</div>
+							<div class="input-field col s12">
+								<input id="pass" type="password" class="validate">
+								<label for="pass">Password</label>
+							</div>
+							<button class="btn btn-pi" onclick="connect()">OK</button>
+						</form>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<form class="col s12 white">
-					<div class="input-field col s12">
-						<input id="id" type="text" class="validate">
+				<div class="row hide" id="tools">
+					<div class="col">
+						<button class="btn red" onclick="reboot()">Reboot Raspberry</button>
 					</div>
-					<div class="input-field col s12">
-						<input id="pass" type="password" class="validate">
-					</div>
-				</form>
-				<div class="card-footer text-center">
-					<button class="btn btn-success" onclick="connect()">OK</button>
 				</div>
 			</div>
 		</div>

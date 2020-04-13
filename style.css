@@ -13,6 +13,11 @@ body{
     background: #D21F3C;
     color: white;
 }
+.btn-pi{
+    background: #D21F3C;
+    color: white;
+    width: 100%;
+}
 .btn-nav{
     width: 100%;
     background: transparent !important;
@@ -21,13 +26,12 @@ body{
 .hide{
     display: none;
 }
-
 .hide-home{
-    background:red;
-    height: 0 !important;
-    max-height: 0 !important;
+   display: none;
 }
-
+.btn:hover, .btn-large:hover, .btn-small:hover{
+    background: #D21F3C;
+}
 @media screen and (min-width: 993px) and (max-width:2200px){
     .left-nav{
         height: 100vh !important;
