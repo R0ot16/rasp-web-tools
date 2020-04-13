@@ -1,4 +1,4 @@
-# RASP CMS for Raspbian Linux
+# RASP CMS for Raspbian Linux (beta)
 ## By Root - Your Stories
 ### V0.0.1a
 
