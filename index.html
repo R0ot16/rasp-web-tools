@@ -1,64 +1,106 @@
+<!-- 
+
+	Author : Root
+	Copyright : Root - Your Stories
+	Last Update : 13/04/2020
+
+-->
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
-	<title>Raspberry de Root !</title>
+	<title>Rasp CMS By Root</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="robots" content="noindex, nofollow">
 	<meta name="googlebot" content="noindex, nofollow">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="http://raspberry.yourstories.fr/style.css">
 </head>
 
 <body>
-	<div class="row">
-		<div class="col header">
-			<h1>Raspberry Root</h1>
-			<h2>System view settings</h2>
-			<img src="http://raspberry.yourstories.fr/rasp.png" width="50">
-		</div>
+	<div class="icon-nav">
+		<i id="arrow-nav" class="fa fa-arrow-right fa-3x" onclick="showMenu()"></i>
+		<i id="close-nav" class="fa fa-close fa-3x hide" onclick="hideMenu()"></i>
 	</div>
-	<div class="container">
-
-		<div class="col s12">
+	<div class="row">
+		<div class="col s10 m2 l2 bg-pi left-nav" id="nav">
 			<div class="row">
+				<div class="col s12 center-align">
+					<div class="row">
+						<div class="col s12">
+							<h1>Rasp CMS</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<img src="http://raspberry.yourstories.fr/rasp.png" width="50">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<span>By Root - Your Stories</span> <br>
+							<small>V0.0.1</small>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<hr>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<button class="btn btn-nav" v-on:click="goHome()" onclick="hideMenu()">Home</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col s12 m12 l10 content" id="home">
+			<div v-if="home" class="row">
 				<div class="col s12 m6 l6">
 					<canvas id="myChart" width="100" height="60"></canvas>
 				</div>
-				<div class="card col s12 m6 l6 hoverable">
-					<div class="card-title">
-						<h2>System</h2>
+				<div class="col s12 m6 l6">
+					<div class="row">
+						<table class="col s12">
+							<thead>
+								<tr>
+									<th>Temp °C</th>
+									<th>CPU %</th>
+									<th>MEMORY %</th>
+									<th>Online since</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td><span id="tempv"></span>°C</td>
+									<td><span id="systeme-cpu-usage"></span></td>
+									<td><span id="systeme-memory"></span></td>
+									<td><span id="time-passed"></span></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-					<div class="card-content">
-						<h5>Distribution : <span id="systeme-distribution"></span></h5>
-						<h5>Version : <span id="systeme-distribution-version"></span></h5>
-						<h5>Machina : <span id="systeme-machine"></span></h5>
-						<h5>CPU's : <span id="systeme-nombre-cpu"></span></h5>
+					<div class="row">
+						<div class="card col s12 hoverable center-align">
+							<div class="card-title bg-pi">
+								<h2>System</h2>
+							</div>
+							<div class="card-content">
+								<h5>Distribution : <span id="systeme-distribution"></span></h5>
+								<h5>Version : <span id="systeme-distribution-version"></span></h5>
+								<h5>Machina : <span id="systeme-machine"></span></h5>
+								<h5>CPU's : <span id="systeme-nombre-cpu"></span></h5>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<table>
-					<thead>
-						<tr>
-							<th>Temp °C</th>
-							<th>CPU %</th>
-							<th>MEMORY %</th>
-							<th>Online since</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<tr>
-							<td><span id="tempv"></span>°C</td>
-							<td><span id="systeme-cpu-usage"></span></td>
-							<td><span id="systeme-memory"></span></td>
-							<td><span id="time-passed"></span></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+		</div>
+		<div class="row hide">
 			<div class="row hide" id="tools">
 				<div class="col">
 					<button class="btn red" onclick="reboot()">Reboot Raspberry</button>
@@ -78,135 +120,15 @@
 				</div>
 			</div>
 		</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-		<script src="node_modules/chart.js/dist/Chart.min.js"></script>
-
-		<script>
-			var ctx = document.getElementById('myChart').getContext('2d');
-			var myChart = new Chart(ctx, {
-				type: 'horizontalBar',
-				data: {
-					labels: ['CPU %', 'MEMORY %', 'TEMP °C'],
-					datasets: [{
-						label: 'System view',
-						data: [[50, 0], [50, 0], [10, 0], 30, 40, 50, 60, 70, 80, 90, 100],
-						backgroundColor: [
-							'rgba(0, 255, 0, 0.5)',
-							'rgba(0, 255, 0, 0.5)',
-							'rgba(0, 255, 0, 0.5)'
-						],
-						borderColor: [
-							'rgba(0, 255, 0, 1)',
-							'rgba(0, 255, 0, 1)',
-							'rgba(0, 255, 0, 1)'
-						],
-						borderWidth: 1
-					}]
-				},
-				options: {
-					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero: true
-							}
-						}]
-					}
-				}
-			});
-		</script>
-		<script>
-			var socket = io.connect('http://raspberry.yourstories.fr:3000');
-
-			socket.on('temp', (data) => {
-				var dat = parseInt(data);
-				var el = document.getElementById('tempv');
-				setColor(dat, el);
-				el.innerHTML = data;
-				var fl = parseFloat(data);
-				myChart.data.datasets[0].data[2] = fl;
-				myChart.update();
-			});
-
-			socket.on('cpu', (data) => {
-				var jdata = JSON.parse(data);
-				var base = jdata.sysstat.hosts[0];
-				var stats = jdata.sysstat.hosts[0].statistics[0];
-				document.getElementById('systeme-distribution').innerHTML = base.sysname;
-				document.getElementById('systeme-distribution-version').innerHTML = base.release;
-				document.getElementById('systeme-nombre-cpu').innerHTML = base['number-of-cpus'];
-			});
-
-			socket.on('time-passed', (time) => {
-				document.getElementById('time-passed').innerHTML = time;
-			});
-
-			socket.on('cpu-usage', (data) => {
-				var cpu = document.getElementById("systeme-cpu-usage");
-				var jdata = JSON.parse(data);
-				var base = jdata.sysstat.hosts[0];
-				document.getElementById("systeme-machine").innerHTML = base.machine;
-				var perc = base.statistics[0]['cpu-load'][0];
-				var totalcpu = perc.usr + perc.nice + perc.sys + perc.iowait + perc.irq + perc.soft + perc.steal + perc.guest + perc.gnice;
-				var total = parseInt(totalcpu);
-				setColor(total, cpu);
-				cpu.innerHTML = parseInt(total) + "%"
-				myChart.data.datasets[0].data[0] = parseInt(total);
-				myChart.update();
-			});
-
-			socket.on("memory", (data) => {
-				var mem = document.getElementById('systeme-memory');
-				var percent = (100 * parseInt(data.use)) / parseInt(data.tot);
-				var per = parseInt(percent);
-				setColor(per, mem);
-				mem.innerHTML = per + "%";
-				myChart.data.datasets[0].data[1] = per;
-				myChart.update();
-			});
-
-			socket.on('log-true', () => {
-				console.log('true');
-				document.getElementById('tools').classList.remove('hide');
-			});
-			socket.on('log-false', () => {
-				console.log('false');
-			});
-
-			socket.on('ban', () => {
-				document.body.classList.add('hide');
-				alert("Don't try bro, i'm best ! <3");
-			});
-
-			function setColor(value, elem) {
-				resetColor(elem);
-				if (value < 50) {
-					elem.classList.add('green-text');
-				} else if (value >= 50 && value < 75) {
-					elem.classList.add('yellow-text');
-				} else {
-					elem.classList.add('red-text');
-				}
-			}
-
-			function resetColor(elem) {
-				elem.classList.remove('green-text');
-				elem.classList.remove('yellow-text');
-				elem.classList.remove('red-text');
-			}
-
-			function connect() {
-				var i = document.getElementById('id').value;
-				var p = document.getElementById('pass').value;
-
-				socket.emit('log', { id: i, pass: p });
-			}
-
-			function reboot() {
-				socket.emit('reboot');
-			}
-
-
-		</script>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+	<script defer src="node_modules/chart.js/dist/Chart.min.js"></script>
+	<script defer src="./js/home.js"></script>
+	<script defer src="./js/nav.js"></script>
+	<script defer src="./js/socket/home.js"></script>
+	<script defer src="./js/function/home.js"></script>
 </body>
 
 </html>

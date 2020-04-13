@@ -1,17 +1,54 @@
-.header{
+h1,h2,h3{
+    margin: 0 !important;
+}
+body{
+    overflow: hidden;
+}
+
+.content{
+    padding: 1.5em;
+    max-height: 90vh;
+}
+.bg-pi{
     background: #D21F3C;
-    text-align: center;
     color: white;
+}
+.btn-nav{
     width: 100%;
+    background: transparent !important;
+    color: white;
+}
+.hide{
+    display: none;
 }
 
-.row .col{
-    padding: 0;
+@media screen and (min-width: 993px) and (max-width:2200px){
+    .left-nav{
+        height: 100vh !important;
+    }
+    .icon-nav{
+        display: none;
+    }
 }
-
-.card {
-    background: #D21F3C;
-}
-.card-content{
-    background: white !important;
+@media screen and (max-width: 992px) and (min-width: 50px){
+    .left-nav{
+        position: fixed;
+        margin-left: -600px !important;
+        height: 100vh;
+        transition: all 0.3s ease-in-out;
+    }
+    .show-nav{
+        margin-left: 0 !important;
+        z-index: 999;
+        width: 100vw !important;
+    }
+    .icon-nav{
+        display: block;
+        position: fixed;
+        top: 2vh;
+        left: 1vw;
+        background: #D21F3C;
+        color: white;
+        z-index: 1000;
+    }
 }

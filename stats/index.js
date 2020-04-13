@@ -1,3 +1,9 @@
+/*
+  author : Root
+  Copyright: Root - Your Stories
+  Last Update : 13/04/2020
+*/
+
 var app = require("express")();
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
@@ -32,6 +38,8 @@ io.on('connection', (socket) => {
   });
 
   console.log("client connected !");
+  console.log("RASP CMS BY ROOT");
+  console.log("COPYRIGHT ROOT - YOUR STORIES");
 });
 
 io.on('connect', (socket) => {
