@@ -1,6 +1,6 @@
-# RASP CMS for Raspbian Linux (beta)
-## By Root - Your Stories
-### V0.0.1a
+# RASP CMS NodeJS for Raspbian Linux (beta)
+## V 0.0.1a
+### By Root - Your Stories
 
 ## How install
 - git clone https://github.com/R0ot16/rasp-cms
