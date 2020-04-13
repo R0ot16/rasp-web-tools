@@ -1,0 +1,2 @@
+tm=`reboot`
+echo $tm

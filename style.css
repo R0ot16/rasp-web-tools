@@ -1,0 +1,17 @@
+.header{
+    background: #D21F3C;
+    text-align: center;
+    color: white;
+    width: 100%;
+}
+
+.row .col{
+    padding: 0;
+}
+
+.card {
+    background: #D21F3C;
+}
+.card-content{
+    background: white !important;
+}
