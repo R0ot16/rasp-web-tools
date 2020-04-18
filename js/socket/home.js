@@ -50,6 +50,7 @@ socket.on("memory", (data) => {
 socket.on('log-true', () => {
     console.log('true');
     document.getElementById('tools').classList.remove('hide');
+    document.getElementById('form-login').classList.add('hide');
 });
 socket.on('log-false', () => {
     console.log('false');
@@ -58,4 +59,22 @@ socket.on('log-false', () => {
 socket.on('ban', () => {
     document.body.classList.add('hide');
     alert("Don't try bro, i'm best ! <3");
+});
+
+socket.on('reboot-run', () => {
+    pushNotif('Reboot', 'Reboot is running, please wait...');
+});
+
+socket.on('shutdown-run', () => {
+    pushNotif('Shutdown', 'Raspberry shutdown in 1 minute');
+
+    document.getElementById('shutdown-c').classList.remove('hide');
+});
+
+socket.on('shutdown-canceled', () => {
+    pushNotif('Shutdown', 'Shutdown cancelled !');
+});
+
+socket.on('reboot-ok', () => {
+    pushNotif('Reboot', 'Reboot finished !');
 });

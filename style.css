@@ -7,7 +7,8 @@ body{
 
 .content{
     padding: 1.5em;
-    max-height: 90vh;
+    max-height: 100vh;
+    overflow: auto;
 }
 .bg-pi{
     background: #D21F3C;
@@ -32,12 +33,37 @@ body{
 .btn:hover, .btn-large:hover, .btn-small:hover{
     background: #D21F3C;
 }
+
+.show-notif{
+    bottom: 0 !important;
+}
+
+.notification{
+    position: fixed;
+    bottom: -100px;
+    left: 30vw;
+    right: 30vw;
+    background: #D21F3C;
+    color: white;
+    border: 2px solid white;
+    border-radius: 20px;
+    transition: all 0.4s ease-in-out;
+    z-index: 1001;
+    padding: 1em;
+    font-weight: bold;
+}
+
 @media screen and (min-width: 993px) and (max-width:2200px){
     .left-nav{
         height: 100vh !important;
     }
     .icon-nav{
         display: none;
+    }
+    .log-form{
+        position: fixed;
+        top: 20vh;
+        max-width: 40vw;
     }
 }
 @media screen and (max-width: 992px) and (min-width: 50px){

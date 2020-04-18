@@ -106,9 +106,10 @@
 				</div>
 			</div>
 			<div id="admin-panel" class="row hide-home">
-				<div class="col s6">
+				<span id="infosmsg"></span>
+				<div class="col s12">
 					<div class="row">
-						<form class="col s12 white" onclick="return false;">
+						<form id="form-login" class="col s12 white log-form" onclick="return false;">
 							<div class="input-field col s12">
 								<input id="id" type="text" class="validate">
 								<label for="id">Username</label>
@@ -120,14 +121,22 @@
 							<button class="btn btn-pi" onclick="connect()">OK</button>
 						</form>
 					</div>
-				</div>
-				<div class="row hide" id="tools">
-					<div class="col">
-						<button class="btn red" onclick="reboot()">Reboot Raspberry</button>
+					<div class="row hide" id="tools">
+						<div class="col">
+							<button class="btn red" onclick="reboot()">Reboot Raspberry</button>
+						</div>
+						<div class="col">
+							<button class="btn red" onclick="shutdown()">Shutdown Raspberry</button>
+							<button class="btn red hide" id="shutdown-c" onclick="cancelShutdown()">Cancel Shutdown</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div id="notif" class="notification">
+		<span id="notif-title"></span> <br>
+		<span id="notif-content"></span>
 	</div>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>

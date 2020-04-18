@@ -43,6 +43,7 @@ io.on('connection', (socket) => {
 });
 
 io.on('connect', (socket) => {
+  socket.emit('reboot-ok');
   socket.on('log', (data) => {
     if (data.id === id && data.pass === pass) {
       socket.emit('log-true');
@@ -58,17 +59,45 @@ io.on('connect', (socket) => {
         child;
 
       socket.emit('reboot-run');
-      setTimeout(() => {
-        child = exec("sh /var/www/html/stats/cmd/reboot.bash", (err, out, stderr) => {
-          if (err) {
-            throw err;
-          }
-        });
+      child = exec("sh /var/www/html/stats/cmd/reboot.bash", (err, out, stderr) => {
+        if (err) {
+          throw err;
+        }
       }, 1000);
     } else {
       socket.emit('ban');
     }
-  })
+  });
+  socket.on('shutdown', () => {
+    if (socket.id === loggedAdmin) {
+      let exec = require('child_process').exec,
+        child;
+
+      socket.emit('shutdown-run');
+      child = exec("sh /var/www/html/stats/cmd/shutdown.bash", (err, out, stderr) => {
+        if (err) {
+          throw err;
+        }
+      }, 200);
+    } else {
+      socket.emit('ban');
+    }
+  });
+  socket.on('cancel-shutdown', () => {
+    if (socket.id === loggedAdmin) {
+      let exec = require('child_process').exec,
+        child;
+
+      socket.emit('shutdown-canceled');
+      child = exec("sh /var/www/html/stats/cmd/cshutdown.bash", (err, out, stderr) => {
+        if (err) {
+          throw err;
+        }
+      }, 200);
+    } else {
+      socket.emit('ban');
+    }
+  });
 });
 
 function getInfos() {

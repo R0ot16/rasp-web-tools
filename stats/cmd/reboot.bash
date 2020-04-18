@@ -1,2 +1,2 @@
-tm=`reboot`
+tm=`sudo reboot`
 echo $tm

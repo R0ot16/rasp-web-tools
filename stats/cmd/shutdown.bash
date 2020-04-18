@@ -1,0 +1,2 @@
+tm `shutdown`
+echo $tm
