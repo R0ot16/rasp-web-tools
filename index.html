@@ -41,8 +41,13 @@
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<span>By Root - Your Stories</span> <br>
-							<small>V0.0.1b</small>
+							<span>By <a href="https://cv.yourstories.fr" target="_blank">Root</a> - <a
+									href="https://yourstories.fr" target="_blank">Your Stories</a></span>
+							<hr>
+							<a href="https://github.com/R0ot16/rasp-cms" target="_blank">
+								<i class="fa fa-github"></i> <br>
+								V0.1.2a
+							</a>
 						</div>
 					</div>
 					<div class="row">
@@ -122,12 +127,36 @@
 						</form>
 					</div>
 					<div class="row hide" id="tools">
-						<div class="col">
+						<div class="col s6">
 							<button class="btn red" onclick="reboot()">Reboot Raspberry</button>
 						</div>
-						<div class="col">
+						<div class="col s6">
 							<button class="btn red" onclick="shutdown()">Shutdown Raspberry</button>
-							<button class="btn red hide" id="shutdown-c" onclick="cancelShutdown()">Cancel Shutdown</button>
+							<button class="btn red hide" id="shutdown-c" onclick="cancelShutdown()">Cancel
+								Shutdown</button>
+						</div>
+						<div class="col">
+							<div class="card col s12">
+								<div class="card-title">
+									SSH
+								</div>
+								<div class="card-content">
+									<span id="ssh"></span>
+								</div>
+								<div class="card-footer">
+									<div class="col s9">
+										<input type="text" name="cmd" id="cmd" placeholder="cmd..">
+									</div>
+									<div class="col s3">
+										<button class="btn red" onclick="sendCmd()">SEND</button>
+									</div>
+									<div class="col s12">
+										<div class="progress hide" id="progress">
+											<div class="indeterminate"></div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

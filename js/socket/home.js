@@ -56,6 +56,11 @@ socket.on('log-false', () => {
     console.log('false');
 });
 
+socket.on('out-cmd', (ret) => {
+    document.getElementById('ssh').innerHTML = document.getElementById('ssh').innerHTML + "<br>" + ret;
+    document.getElementById('progress').classList.add('hide');
+});
+
 socket.on('ban', () => {
     document.body.classList.add('hide');
     alert("Don't try bro, i'm best ! <3");
@@ -76,5 +81,8 @@ socket.on('shutdown-canceled', () => {
 });
 
 socket.on('reboot-ok', () => {
-    pushNotif('Reboot', 'Reboot finished !');
+    if(sessionStorage.getItem('reboot') === true){
+        pushNotif('Reboot', 'Reboot finished !');
+        sessionStorage.setItem('reboot', false);
+    }
 });

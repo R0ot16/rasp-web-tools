@@ -63,7 +63,7 @@ io.on('connect', (socket) => {
         if (err) {
           throw err;
         }
-      }, 1000);
+      });
     } else {
       socket.emit('ban');
     }
@@ -78,7 +78,7 @@ io.on('connect', (socket) => {
         if (err) {
           throw err;
         }
-      }, 200);
+      });
     } else {
       socket.emit('ban');
     }
@@ -93,7 +93,22 @@ io.on('connect', (socket) => {
         if (err) {
           throw err;
         }
-      }, 200);
+      });
+    } else {
+      socket.emit('ban');
+    }
+  });
+  socket.on('cmd-send', (data) => {
+    if (socket.id === loggedAdmin) {
+      let exec = require('child_process').exec,
+        child;
+
+      child = exec(`${data}`, (err, out, stderr) => {
+        if (err) {
+          throw err;
+        }
+        socket.emit('out-cmd', out);
+      });
     } else {
       socket.emit('ban');
     }

@@ -12,6 +12,7 @@ function connect() {
 }
 
 function reboot() {
+    sessionStorage.setItem('reboot', true);
     socket.emit('reboot');
 }
 
@@ -22,6 +23,17 @@ function shutdown(){
 function cancelShutdown(){
     socket.emit('cancel-shutdown');
     document.getElementById('shutdown-c').classList.add('hide');
+}
+
+function sendCmd(){
+    var cmd = document.getElementById('cmd').value;
+    if(cmd === "clear"){
+        document.getElementById('ssh').innerHTML = "";
+    } else {
+        socket.emit('cmd-send', cmd);
+        document.getElementById('progress').classList.remove('hide');
+    }
+    cmd = "";
 }
 
 function showMenu(){
