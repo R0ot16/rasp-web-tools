@@ -116,12 +116,16 @@ io.on('connect', (socket) => {
       let exec = require('child_process').exec,
         child;
 
-      child = exec(`${data}`, (err, out, stderr) => {
-        if (err) {
-          throw err;
-        }
-        socket.emit('out-cmd', out);
-      });
+      try{
+        child = exec(`${data}`, (err, out, stderr) => {
+          if (err) {
+            socket.emit('out-cmd', out);
+          }
+          socket.emit('out-cmd', out);
+        });
+      } catch(e){
+        socket.emit('out-cmd', e);
+      }
     } else {
       socket.emit('ban');
     }

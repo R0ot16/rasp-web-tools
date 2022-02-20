@@ -23,6 +23,7 @@ function shutdown(){
 function cancelShutdown(){
     socket.emit('cancel-shutdown');
     document.getElementById('shutdown-c').classList.add('hide');
+    document.getElementById('shutdown').classList.remove('hide');
 }
 
 function sendCmd(){
@@ -84,11 +85,18 @@ function setColor(value, elem) {
     }
 }
 
-function pushNotif(title, msg){
+function pushNotif(title, msg, error = false){
     var el = document.getElementById('notif');
+    el.classList.remove('notif-error');
+    el.classList.remove('notif-success');
+
     var nt = document.getElementById('notif-title');
     var nc = document.getElementById('notif-content');
-
+    if(error){
+        el.classList.add('notif-error');
+    } else {
+        el.classList.add('notif-success');
+    }
     nt.innerHTML = title;
     nc.innerHTML = msg;
 

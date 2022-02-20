@@ -44,9 +44,9 @@
 							<span>By <a href="https://cv.yourstories.fr" target="_blank">Root</a> - <a
 									href="https://eirl-flomy.fr" target="_blank">EIRL FLOMY</a></span>
 							<hr>
-							<a href="https://github.com/R0ot16/rasp-cms" target="_blank">
+							<a href="https://github.com/R0ot16/rasp-web-tools" target="_blank">
 								<i class="fa fa-github"></i> <br>
-								V0.1.2a
+								V0.2.4
 							</a>
 						</div>
 					</div>
@@ -71,6 +71,12 @@
 		<div class="col s12 m12 l10 content" id="home">
 			<div class="container">
 				<div id="stats-home" class="row">
+					<div class="col s12 center-align">
+						<h2>Raspberry de <span id="name_raspberry"></span></h2>
+					</div>
+					<div class="col s12 center-align">
+						<hr>
+					</div>
 					<div class="card col s12 hoverable center-align">
 						<div class="card-title bg-pi">
 							<h2>System</h2>
@@ -82,29 +88,39 @@
 							<h5>CPU's : <span id="systeme-nombre-cpu">Loading...</span></h5>
 						</div>
 					</div>
-					<div class="col s12 m12 l6">
-						<table class="col s12">
-							<thead>
-								<tr>
-									<th>Temp °C</th>
-									<th>CPU %</th>
-									<th>MEMORY %</th>
-									<th>Online since</th>
-								</tr>
-							</thead>
+					<div class="card col s12 hoverable center-align">
+						<div class="card-title bg-pi">
+							<h2>Statistics</h2>
+						</div>
+						<div class="card-content">
+							<table class="col s12">
+								<thead>
+									<tr>
+										<th>Temp °C</th>
+										<th>CPU %</th>
+										<th>MEMORY %</th>
+										<th>Online since</th>
+									</tr>
+								</thead>
 
-							<tbody>
-								<tr>
-									<td><b><span id="tempv">Loading...</span></b>°C</td>
-									<td><b><span id="systeme-cpu-usage">Loading...</span></b></td>
-									<td><b><span id="systeme-memory">Loading...</span></b></td>
-									<td><b><span id="time-passed">Loading...</span></b></td>
-								</tr>
-							</tbody>
-						</table>
+								<tbody>
+									<tr>
+										<td><b><span id="tempv">Loading...</span></b>°C</td>
+										<td><b><span id="systeme-cpu-usage">Loading...</span></b></td>
+										<td><b><span id="systeme-memory">Loading...</span></b></td>
+										<td><b><span id="time-passed">Loading...</span></b></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
-					<div class="col s12 m12 l6">
-						<canvas id="myChart" width="100" height="60"></canvas>
+					<div class="card col s12 hoverable center-align">
+						<div class="card-title bg-pi">
+							<h2>Chart</h2>
+						</div>
+						<div class="card-content">
+							<canvas id="myChart" width="100" height="60"></canvas>
+						</div>
 					</div>
 				</div>
 				<div id="admin-panel" class="row hide-home">
@@ -121,16 +137,16 @@
 									<label for="pass">Password</label>
 								</div>
 								<button class="btn btn-pi" onclick="connect()">OK</button>
+								<span id="error-log" class="red-text"></span>
 							</form>
 						</div>
 						<div class="row hide" id="tools">
 							<div class="col s6">
-								<button class="btn red" onclick="reboot()">Reboot Raspberry</button>
+								<button class="btn btn-action red" onclick="reboot()"><i class="fa fa-repeat fa-3x"></i><br>Reboot Raspberry</button>
 							</div>
 							<div class="col s6">
-								<button class="btn red" onclick="shutdown()">Shutdown Raspberry</button>
-								<button class="btn red hide" id="shutdown-c" onclick="cancelShutdown()">Cancel
-									Shutdown</button>
+								<button class="btn btn-action red" id="shutdown" onclick="shutdown()"><i class="fa fa-power-off fa-3x"></i><br>Shutdown Raspberry</button>
+								<button class="btn btn-action red hide" id="shutdown-c" onclick="cancelShutdown()"><i class="fa fa-times fa-3x"></i><br>Cancel shutdown</button>
 							</div>
 							<div class="col">
 								<div class="card col s12">
@@ -165,7 +181,7 @@
 		<span id="notif-title"></span> <br>
 		<span id="notif-content"></span>
 	</div>
-	
+
 	<script src="./js/config.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>

@@ -30,6 +30,8 @@ var myChart = new Chart(ctx, {
     }
 });
 
+document.getElementById('name_raspberry').innerHTML = NAME_RASPBERRY;
+
 console.log("-----------------------------");
 console.log("RASP-CMS by ROOT - EIRL FLOMY");
 console.log("-----------------------------");

@@ -43,7 +43,6 @@ body{
     bottom: -100px;
     left: 30vw;
     right: 30vw;
-    background: #D21F3C;
     color: white;
     border: 2px solid white;
     border-radius: 20px;
@@ -51,6 +50,13 @@ body{
     z-index: 1001;
     padding: 1em;
     font-weight: bold;
+}
+
+.notif-success{
+    background: green;
+}
+.notif-error{
+    background: red;
 }
 
 @media screen and (min-width: 993px) and (max-width:2200px){
@@ -87,4 +93,18 @@ body{
         color: white;
         z-index: 1000;
     }
+}
+
+.btn{
+    height: auto !important;
+}
+.btn i{
+    font-size: none !important;
+}
+.btn-action{
+    padding: 1rem;
+}
+
+.fa-3x{
+    font-size: 3em !important;
 }

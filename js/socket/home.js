@@ -50,12 +50,12 @@ socket.on("memory", (data) => {
 });
 
 socket.on('log-true', () => {
-    console.log('true');
     document.getElementById('tools').classList.remove('hide');
     document.getElementById('form-login').classList.add('hide');
+    pushNotif('Logged !', 'You are now logged in.');
 });
 socket.on('log-false', () => {
-    console.log('false');
+    pushNotif('Error', 'Password or login is not reconized.', true)
 });
 
 socket.on('out-cmd', (ret) => {
@@ -64,8 +64,7 @@ socket.on('out-cmd', (ret) => {
 });
 
 socket.on('ban', () => {
-    document.body.classList.add('hide');
-    alert("Don't try bro, i'm best ! <3");
+    alert("You are not connected, please reload page for reconnect");
 });
 
 socket.on('reboot-run', () => {
@@ -76,6 +75,7 @@ socket.on('shutdown-run', () => {
     pushNotif('Shutdown', 'Raspberry shutdown in 1 minute');
 
     document.getElementById('shutdown-c').classList.remove('hide');
+    document.getElementById('shutdown').classList.add('hide');
 });
 
 socket.on('shutdown-canceled', () => {
