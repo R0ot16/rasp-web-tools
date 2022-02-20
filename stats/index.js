@@ -206,27 +206,12 @@ function getAllCpu() {
 }
 
 function getTemp() {
-  /*let exec = require('child_process').exec,
-    child;
-
-  child = exec('sh /var/www/html/stats/cmd/temp.py', (err, out, stderr) => {
-    if (err) {
-      throw err;
-    }
-    console.log(out);
-    io.emit('temp', out);
-  });*/
   var dataToSend;
-  // spawn new child process to call the python script
   const python = spawn('python', ['/var/www/html/stats/cmd/temp.py']);
-  // collect data from script
   python.stdout.on('data', function (data) {
     dataToSend = data.toString();
   });
-  // in close event we are sure that stream from child process is closed
   python.on('close', (code) => {
-    // send data to browser
-    console.log(dataToSend);
     io.emit('temp', dataToSend);
   });
 }
