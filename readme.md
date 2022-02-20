@@ -7,7 +7,7 @@
 Before install rasp web tools, please install sysstat, python, nodejs, npm, setuptools, apache2
 
 Then :
-- git clone https://github.com/R0ot16/rasp-cms
+- git clone https://github.com/R0ot16/rasp-web-tools
 - in rasp-cms directory : npm i --save
 - in rasp-cms/stats directory : npm i --save
 - Go to /js/config.js and put your informations
