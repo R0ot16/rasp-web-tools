@@ -1,14 +1,29 @@
 /*
   author : Root
-  Copyright: Root - Your Stories
+  Copyright: Root - EIRL FLOMY
   Last Update : 13/04/2020
 */
-
+const conf = require('./config');
+const config = new conf();
+const cors = require('cors');
 var app = require("express")();
 var server = require("http").Server(app);
-var io = require("socket.io")(server);
+const url = config.URL_WEB;
+var io = require("socket.io")(server, {
+  cors: {
+    origin: url,
+    methods: ["GET", "POST"],
+    transports: ['websocket', 'polling'],
+    credentials: true
+  },
+  allowEIO3: true
+});
 const bodyParser = require("body-parser");
+const {spawn} = require('child_process');
 
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 let util = require('util');
@@ -17,13 +32,13 @@ var startat;
 
 var loggedAdmin = false;
 var canLog = true;
-var id = "root";
-var pass = "root";
+var id = config.ADMIN_ID;
+var pass = config.ADMIN_PASS;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
-server.listen(3000, () => {
+server.listen(config.PORT_SOCKET, () => {
+  console.log("RASP WEB TOOLS BY ROOT");
+  console.log("COPYRIGHT ROOT - EIRL FLOMY");
   console.log("server run on port 3000");
   startat = new Date();
 });
@@ -31,15 +46,13 @@ server.listen(3000, () => {
 io.on('connection', (socket) => {
   let inter = setInterval(() => {
     getInfos();
-  }, 2500);
+  }, config.INTERVAL);
   getAllCpu();
   socket.on('disconnect', () => {
     clearInterval(inter);
   });
 
   console.log("client connected !");
-  console.log("RASP CMS BY ROOT");
-  console.log("COPYRIGHT ROOT - YOUR STORIES");
 });
 
 io.on('connect', (socket) => {
@@ -193,13 +206,27 @@ function getAllCpu() {
 }
 
 function getTemp() {
-  let exec = require('child_process').exec,
+  /*let exec = require('child_process').exec,
     child;
 
-  child = exec('sh /var/www/html/stats/cmd/temp.bash', (err, out, stderr) => {
+  child = exec('sh /var/www/html/stats/cmd/temp.py', (err, out, stderr) => {
     if (err) {
       throw err;
     }
+    console.log(out);
     io.emit('temp', out);
+  });*/
+  var dataToSend;
+  // spawn new child process to call the python script
+  const python = spawn('python', ['/var/www/html/stats/cmd/temp.py']);
+  // collect data from script
+  python.stdout.on('data', function (data) {
+    dataToSend = data.toString();
+  });
+  // in close event we are sure that stream from child process is closed
+  python.on('close', (code) => {
+    // send data to browser
+    console.log(dataToSend);
+    io.emit('temp', dataToSend);
   });
 }

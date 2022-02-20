@@ -1,7 +1,7 @@
 <!-- 
 
 	Author : Root
-	Copyright : Root - Your Stories
+	Copyright : Root - EIRL FLOMY
 	Last Update : 13/04/2020
 
 -->
@@ -9,14 +9,14 @@
 <html lang="fr">
 
 <head>
-	<title>Rasp CMS By Root</title>
+	<title>Rasp Web Tools By Root</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="robots" content="noindex, nofollow">
 	<meta name="googlebot" content="noindex, nofollow">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="http://raspberry.yourstories.fr/style.css">
+	<link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
@@ -30,19 +30,19 @@
 				<div class="col s12 center-align">
 					<div class="row">
 						<div class="col s12">
-							<h1>Rasp CMS</h1>
+							<h1>Rasp Web Tools</h1>
 							<span>For Raspbian Linux</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<img src="http://raspberry.yourstories.fr/rasp.png" width="50">
+							<img src="./rasp.png" width="50">
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
 							<span>By <a href="https://cv.yourstories.fr" target="_blank">Root</a> - <a
-									href="https://yourstories.fr" target="_blank">Your Stories</a></span>
+									href="https://eirl-flomy.fr" target="_blank">EIRL FLOMY</a></span>
 							<hr>
 							<a href="https://github.com/R0ot16/rasp-cms" target="_blank">
 								<i class="fa fa-github"></i> <br>
@@ -69,12 +69,20 @@
 			</div>
 		</div>
 		<div class="col s12 m12 l10 content" id="home">
-			<div id="stats-home" class="row">
-				<div class="col s12 m6 l6">
-					<canvas id="myChart" width="100" height="60"></canvas>
-				</div>
-				<div class="col s12 m6 l6">
-					<div class="row">
+			<div class="container">
+				<div id="stats-home" class="row">
+					<div class="card col s12 hoverable center-align">
+						<div class="card-title bg-pi">
+							<h2>System</h2>
+						</div>
+						<div class="card-content">
+							<h5>Distribution : <span id="systeme-distribution">Loading...</span></h5>
+							<h5>Version : <span id="systeme-distribution-version">Loading...</span></h5>
+							<h5>Machina : <span id="systeme-machine">Loading...</span></h5>
+							<h5>CPU's : <span id="systeme-nombre-cpu">Loading...</span></h5>
+						</div>
+					</div>
+					<div class="col s12 m12 l6">
 						<table class="col s12">
 							<thead>
 								<tr>
@@ -87,72 +95,62 @@
 
 							<tbody>
 								<tr>
-									<td><span id="tempv"></span>°C</td>
-									<td><span id="systeme-cpu-usage"></span></td>
-									<td><span id="systeme-memory"></span></td>
-									<td><span id="time-passed"></span></td>
+									<td><b><span id="tempv">Loading...</span></b>°C</td>
+									<td><b><span id="systeme-cpu-usage">Loading...</span></b></td>
+									<td><b><span id="systeme-memory">Loading...</span></b></td>
+									<td><b><span id="time-passed">Loading...</span></b></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<div class="row">
-						<div class="card col s12 hoverable center-align">
-							<div class="card-title bg-pi">
-								<h2>System</h2>
-							</div>
-							<div class="card-content">
-								<h5>Distribution : <span id="systeme-distribution"></span></h5>
-								<h5>Version : <span id="systeme-distribution-version"></span></h5>
-								<h5>Machina : <span id="systeme-machine"></span></h5>
-								<h5>CPU's : <span id="systeme-nombre-cpu"></span></h5>
-							</div>
-						</div>
+					<div class="col s12 m12 l6">
+						<canvas id="myChart" width="100" height="60"></canvas>
 					</div>
 				</div>
-			</div>
-			<div id="admin-panel" class="row hide-home">
-				<span id="infosmsg"></span>
-				<div class="col s12">
-					<div class="row">
-						<form id="form-login" class="col s12 white log-form" onclick="return false;">
-							<div class="input-field col s12">
-								<input id="id" type="text" class="validate">
-								<label for="id">Username</label>
-							</div>
-							<div class="input-field col s12">
-								<input id="pass" type="password" class="validate">
-								<label for="pass">Password</label>
-							</div>
-							<button class="btn btn-pi" onclick="connect()">OK</button>
-						</form>
-					</div>
-					<div class="row hide" id="tools">
-						<div class="col s6">
-							<button class="btn red" onclick="reboot()">Reboot Raspberry</button>
-						</div>
-						<div class="col s6">
-							<button class="btn red" onclick="shutdown()">Shutdown Raspberry</button>
-							<button class="btn red hide" id="shutdown-c" onclick="cancelShutdown()">Cancel
-								Shutdown</button>
-						</div>
-						<div class="col">
-							<div class="card col s12">
-								<div class="card-title">
-									SSH
+				<div id="admin-panel" class="row hide-home">
+					<span id="infosmsg"></span>
+					<div class="col s12">
+						<div class="row">
+							<form id="form-login" class="col s12 white log-form" onclick="return false;">
+								<div class="input-field col s12">
+									<input id="id" type="text" class="validate">
+									<label for="id">Username</label>
 								</div>
-								<div class="card-content">
-									<span id="ssh"></span>
+								<div class="input-field col s12">
+									<input id="pass" type="password" class="validate">
+									<label for="pass">Password</label>
 								</div>
-								<div class="card-footer">
-									<div class="col s9">
-										<input type="text" name="cmd" id="cmd" placeholder="cmd..">
+								<button class="btn btn-pi" onclick="connect()">OK</button>
+							</form>
+						</div>
+						<div class="row hide" id="tools">
+							<div class="col s6">
+								<button class="btn red" onclick="reboot()">Reboot Raspberry</button>
+							</div>
+							<div class="col s6">
+								<button class="btn red" onclick="shutdown()">Shutdown Raspberry</button>
+								<button class="btn red hide" id="shutdown-c" onclick="cancelShutdown()">Cancel
+									Shutdown</button>
+							</div>
+							<div class="col">
+								<div class="card col s12">
+									<div class="card-title">
+										SSH
 									</div>
-									<div class="col s3">
-										<button class="btn red" onclick="sendCmd()">SEND</button>
+									<div class="card-content">
+										<span id="ssh"></span>
 									</div>
-									<div class="col s12">
-										<div class="progress hide" id="progress">
-											<div class="indeterminate"></div>
+									<div class="card-footer">
+										<div class="col s9">
+											<input type="text" name="cmd" id="cmd" placeholder="cmd..">
+										</div>
+										<div class="col s3">
+											<button class="btn red" onclick="sendCmd()">SEND</button>
+										</div>
+										<div class="col s12">
+											<div class="progress hide" id="progress">
+												<div class="indeterminate"></div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -167,6 +165,8 @@
 		<span id="notif-title"></span> <br>
 		<span id="notif-content"></span>
 	</div>
+	
+	<script src="./js/config.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 	<script defer src="node_modules/chart.js/dist/Chart.min.js"></script>

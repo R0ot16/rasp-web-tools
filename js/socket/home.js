@@ -1,11 +1,13 @@
-var socket = io.connect('http://raspberry.yourstories.fr:3000');
+var socket = io.connect(URL_WEB + ':' + PORT_SOCKET, {
+    withCredentials: true
+});
 
 socket.on('temp', (data) => {
-    var dat = parseInt(data);
+    var dat = data.substr(5, 4);
     var el = document.getElementById('tempv');
     setColor(dat, el);
-    el.innerHTML = data;
-    var fl = parseFloat(data);
+    el.innerHTML = dat;
+    var fl = parseFloat(dat);
     myChart.data.datasets[0].data[2] = fl;
     myChart.update();
 });
@@ -81,7 +83,7 @@ socket.on('shutdown-canceled', () => {
 });
 
 socket.on('reboot-ok', () => {
-    if(sessionStorage.getItem('reboot') === true){
+    if (sessionStorage.getItem('reboot') === true) {
         pushNotif('Reboot', 'Reboot finished !');
         sessionStorage.setItem('reboot', false);
     }

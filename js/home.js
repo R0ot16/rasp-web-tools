@@ -29,3 +29,7 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+
+console.log("-----------------------------");
+console.log("RASP-CMS by ROOT - EIRL FLOMY");
+console.log("-----------------------------");
