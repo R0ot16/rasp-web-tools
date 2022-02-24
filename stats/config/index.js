@@ -4,7 +4,7 @@ class Config{
     INTERVAL = 2500 // Interval for resend info to client-side
 
     ADMIN_ID = "root"; // Identifiant of admin panel
-    ADMIN_PASS = "root"; // Password of admin panel
+    ADMIN_PASS = "root1"; // Password of admin panel
 
     SECURE = true; // false = http ; true = https
 
