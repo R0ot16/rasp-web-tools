@@ -3,23 +3,35 @@
   Copyright: Root - EIRL FLOMY
   Last Update : 13/04/2020
 */
+
 const conf = require('./config');
 const config = new conf();
-const cors = require('cors');
-var app = require("express")();
-var server = require("http").Server(app);
+const fs = require('fs');
+
+var server = null;
+if (config.SECURE) {
+  var app = require("express")();
+  server = require("https").createServer({
+    key: fs.readFileSync(config.KEY_PATH),
+    cert: fs.readFileSync(config.CERT_PATH),
+  }, app);
+} else {
+  var app = require("express")();
+  server = require('http').Server(app);
+}
 const url = config.URL_WEB;
 var io = require("socket.io")(server, {
   cors: {
-    origin: url,
-    methods: ["GET", "POST"],
-    transports: ['websocket', 'polling'],
-    credentials: true
+    origin: url
   },
+  methods: ["GET", "POST"],
+  transports: ['websocket', 'polling'],
+  credentials: true,
+  rejectUnauthorized: false,
   allowEIO3: true
 });
 const bodyParser = require("body-parser");
-const {spawn} = require('child_process');
+const { spawn } = require('child_process');
 
 
 app.use(bodyParser.json());
@@ -116,14 +128,14 @@ io.on('connect', (socket) => {
       let exec = require('child_process').exec,
         child;
 
-      try{
+      try {
         child = exec(`${data}`, (err, out, stderr) => {
           if (err) {
             socket.emit('out-cmd', out);
           }
           socket.emit('out-cmd', out);
         });
-      } catch(e){
+      } catch (e) {
         socket.emit('out-cmd', e);
       }
     } else {

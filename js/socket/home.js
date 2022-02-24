@@ -1,6 +1,20 @@
-var socket = io.connect(URL_WEB + ':' + PORT_SOCKET, {
-    withCredentials: true
-});
+if (SECURE) {
+    var socket = io.connect(URL_WEB + ':' + PORT_SOCKET, {
+        secure: true,
+        transports: ['websocket', 'polling'],
+        rejectUnauthorized: false,
+        withCredentials: true
+    });
+    socket.on("connect_error", () => {
+        // revert to classic upgrade
+        socket.io.opts.transports = ["polling", "websocket"];
+    });
+} else {
+    var socket = io.connect(URL_WEB + ':' + PORT_SOCKET, {
+        withCredentials: true
+    });
+}
+
 
 socket.on('temp', (data) => {
     var dat = data.substr(5, 4);
