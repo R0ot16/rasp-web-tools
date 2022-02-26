@@ -254,7 +254,6 @@ function getTemp() {
     if(config.MAIL_ACTIVE){
       dataToSend = dataToSend.substr(5, 4);
       dataToSend = parseFloat(dataToSend);
-      console.log(dataToSend)
       if(dataToSend > 50){
         let mail = new email('Raspberry', 'temperature of raspberry over 50°');
         mail.sendMail();
