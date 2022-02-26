@@ -20,7 +20,7 @@ class Config{
     MAIL_PORT = '465' // PORT OF MAIL SERVICE
     MAIL_SECURE = true; // true if port 465; false if other port
 
-    MAIL_FROM = ""; // EMAIL TO SEND MESSAGE
+    MAIL_FROM = "contact@yourstories.fr"; // EMAIL TO SEND MESSAGE
     MAIL_TO = "" // EMAIL ADRESS WHO RECEIVE MESSAGE
 }
 

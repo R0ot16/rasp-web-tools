@@ -1,5 +1,5 @@
 # RASP WEB TOOLS for Raspbian Linux (beta)
-## V 0.2.6
+## V 0.3.0
 ### By Root - EIRL FLOMY
 <img src="./screen.png">
 <img src="screen2.png">
