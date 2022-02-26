@@ -1,3 +1,5 @@
+var timeOutNotif;
+
 function resetColor(elem) {
     elem.classList.remove('green-text');
     elem.classList.remove('yellow-text');
@@ -12,23 +14,27 @@ function connect() {
 }
 
 function reboot() {
-    sessionStorage.setItem('reboot', true);
-    socket.emit('reboot');
+    if (window.confirm('Do you want reboot raspberry now ?')) {
+        sessionStorage.setItem('reboot', true);
+        socket.emit('reboot');
+    }
 }
 
-function shutdown(){
-    socket.emit('shutdown');
+function shutdown() {
+    if (window.confirm('Do you want shutdown raspberry now ?')) {
+        socket.emit('shutdown');
+    }
 }
 
-function cancelShutdown(){
+function cancelShutdown() {
     socket.emit('cancel-shutdown');
     document.getElementById('shutdown-c').classList.add('hide');
     document.getElementById('shutdown').classList.remove('hide');
 }
 
-function sendCmd(){
+function sendCmd() {
     var cmd = document.getElementById('cmd').value;
-    if(cmd === "clear"){
+    if (cmd === "clear") {
         document.getElementById('ssh').innerHTML = "";
     } else {
         socket.emit('cmd-send', cmd);
@@ -37,7 +43,7 @@ function sendCmd(){
     cmd = "";
 }
 
-function showMenu(){
+function showMenu() {
     var arr = document.getElementById('arrow-nav');
     var cl = document.getElementById('close-nav');
     var nav = document.getElementById('nav');
@@ -46,7 +52,7 @@ function showMenu(){
     cl.classList.remove('hide');
     nav.classList.add('show-nav');
 }
-function hideMenu(){
+function hideMenu() {
     var arr = document.getElementById('arrow-nav');
     var cl = document.getElementById('close-nav');
     var nav = document.getElementById('nav');
@@ -56,20 +62,20 @@ function hideMenu(){
     nav.classList.remove('show-nav');
 }
 
-function goAdmin(){
+function goAdmin() {
     hideMenu();
     resetNav();
 
-    document.getElementById('admin-panel').classList.remove('hide-home');   
+    document.getElementById('admin-panel').classList.remove('hide-home');
 }
-function goHome(){
+function goHome() {
     hideMenu();
     resetNav();
 
     document.getElementById('stats-home').classList.remove('hide-home');
 }
 
-function resetNav(){
+function resetNav() {
     document.getElementById('stats-home').classList.add('hide-home');
     document.getElementById('admin-panel').classList.add('hide-home');
 }
@@ -85,23 +91,39 @@ function setColor(value, elem) {
     }
 }
 
-function pushNotif(title, msg, error = false){
+function pushNotif(title, msg, error = false) {
+    if (timeOutNotif) {
+        clearTimeout(timeOutNotif);
+    }
     var el = document.getElementById('notif');
-    el.classList.remove('notif-error');
-    el.classList.remove('notif-success');
+    var el2 = document.getElementById('notif-color');
+    el2.classList.remove('notif-error');
+    el2.classList.remove('notif-success');
 
     var nt = document.getElementById('notif-title');
     var nc = document.getElementById('notif-content');
-    if(error){
-        el.classList.add('notif-error');
+    if (error) {
+        el2.classList.add('notif-error');
     } else {
-        el.classList.add('notif-success');
+        el2.classList.add('notif-success');
     }
     nt.innerHTML = title;
     nc.innerHTML = msg;
 
     el.classList.add('show-notif');
-    setTimeout(() => {
+    timeOutNotif = setTimeout(() => {
         el.classList.remove('show-notif');
     }, 5000);
+}
+
+function getUpdate() {
+    document.getElementById('progress-update').classList.remove('hide');
+    socket.emit('get-update');
+    pushNotif('Update', 'Getting update, please wait...');
+}
+
+function upgrade() {
+    document.getElementById('progress-upgrade').classList.remove('hide');
+    socket.emit('upgrade');
+    pushNotif('Upgrade', 'Upgrade running, please wait...');
 }

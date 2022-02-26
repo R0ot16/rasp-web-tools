@@ -3,7 +3,8 @@ if (SECURE) {
         secure: true,
         transports: ['websocket', 'polling'],
         rejectUnauthorized: false,
-        withCredentials: true
+        withCredentials: true,
+        timeout: 90000
     });
     socket.on("connect_error", () => {
         // revert to classic upgrade
@@ -11,7 +12,8 @@ if (SECURE) {
     });
 } else {
     var socket = io.connect(URL_WEB + ':' + PORT_SOCKET, {
-        withCredentials: true
+        withCredentials: true,
+        timeout: 90000
     });
 }
 
@@ -102,3 +104,23 @@ socket.on('reboot-ok', () => {
         sessionStorage.setItem('reboot', false);
     }
 });
+
+socket.on('get-update-response', (ret) => {
+    pushNotif('Update', ret);
+    document.getElementById('progress-update').classList.add('hide');
+    document.getElementById('update-text').innerHTML = ret;
+    if(ret.includes('can be upgraded')){
+        document.getElementById('upgrade-button').classList.remove('hide');
+    } else {
+        if(!document.getElementById('upgrade-button').classList.contains('hide')){
+            document.getElementById('upgrade-button').classList.add('hide');
+        }
+    }
+});
+
+socket.on('upgrade-response', (ret) => {
+    console.log(ret);
+    pushNotif('Upgrade', 'Successfully upgraded !');
+    document.getElementById('progress-upgrade').classList.add('hide');
+    document.getElementById('upgrade-text').innerHTML = ret;
+})

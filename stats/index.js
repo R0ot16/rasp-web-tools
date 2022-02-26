@@ -6,6 +6,9 @@
 
 const conf = require('./config');
 const config = new conf();
+
+const email = require('./email');
+
 const fs = require('fs');
 
 var server = null;
@@ -53,6 +56,11 @@ server.listen(config.PORT_SOCKET, () => {
   console.log("COPYRIGHT ROOT - EIRL FLOMY");
   console.log("server run on port 3000");
   startat = new Date();
+
+  if (config.MAIL_ACTIVE) {
+    let mail = new email('Raspberry runned', 'Your raspberry is now online !');
+    mail.sendMail();
+  }
 });
 
 io.on('connection', (socket) => {
@@ -70,7 +78,7 @@ io.on('connection', (socket) => {
 io.on('connect', (socket) => {
   socket.emit('reboot-ok');
   socket.on('log', (data) => {
-    if (data.id === id && data.pass === pass) {
+    if (data && (data.id === id && data.pass === pass)) {
       socket.emit('log-true');
       canLog = false;
       loggedAdmin = socket.id;
@@ -84,7 +92,7 @@ io.on('connect', (socket) => {
         child;
 
       socket.emit('reboot-run');
-      child = exec("sh /var/www/html/stats/cmd/reboot.bash", (err, out, stderr) => {
+      child = exec("sh /var/www/html/stats/bash/stats/reboot.bash", (err, out, stderr) => {
         if (err) {
           throw err;
         }
@@ -99,7 +107,7 @@ io.on('connect', (socket) => {
         child;
 
       socket.emit('shutdown-run');
-      child = exec("sh /var/www/html/stats/cmd/shutdown.bash", (err, out, stderr) => {
+      child = exec("sh /var/www/html/stats/bash/stats/shutdown.bash", (err, out, stderr) => {
         if (err) {
           throw err;
         }
@@ -114,7 +122,7 @@ io.on('connect', (socket) => {
         child;
 
       socket.emit('shutdown-canceled');
-      child = exec("sh /var/www/html/stats/cmd/cshutdown.bash", (err, out, stderr) => {
+      child = exec("sh /var/www/html/stats/bash/stats/cshutdown.bash", (err, out, stderr) => {
         if (err) {
           throw err;
         }
@@ -142,6 +150,20 @@ io.on('connect', (socket) => {
       socket.emit('ban');
     }
   });
+  socket.on('get-update', (data) => {
+    if (socket.id === loggedAdmin) {
+      getUpdate(socket);
+    } else {
+      socket.emit('ban');
+    }
+  })
+  socket.on('upgrade', (data) => {
+    if (socket.id === loggedAdmin) {
+      upgrade(socket);
+    } else {
+      socket.emit('ban');
+    }
+  })
 });
 
 function getInfos() {
@@ -155,7 +177,7 @@ function getMemory() {
   let exec = require('child_process').exec,
     child;
 
-  child = exec("sh /var/www/html/stats/cmd/mem.bash", (err, out, stderr) => {
+  child = exec("sh /var/www/html/stats/bash/stats/mem.bash", (err, out, stderr) => {
     if (err) {
       throw err;
     }
@@ -169,7 +191,7 @@ function getUsageCpu() {
   let exec = require('child_process').exec,
     child;
 
-  child = exec("sh /var/www/html/stats/cmd/cpuusage.bash", (err, out, stderr) => {
+  child = exec("sh /var/www/html/stats/bash/stats/cpuusage.bash", (err, out, stderr) => {
     if (err) {
       throw err;
     }
@@ -212,7 +234,7 @@ function getAllCpu() {
   let exec = require('child_process').exec,
     child;
 
-  child = exec("sh /var/www/html/stats/cmd/stats.bash", (err, out, stderr) => {
+  child = exec("sh /var/www/html/stats/bash/stats/stats.bash", (err, out, stderr) => {
     if (err) {
       throw err;
     }
@@ -223,11 +245,56 @@ function getAllCpu() {
 
 function getTemp() {
   var dataToSend;
-  const python = spawn('python', ['/var/www/html/stats/cmd/temp.py']);
+  const python = spawn('python', ['/var/www/html/stats/bash/stats/temp.py']);
   python.stdout.on('data', function (data) {
     dataToSend = data.toString();
   });
   python.on('close', (code) => {
     io.emit('temp', dataToSend);
+    if(config.MAIL_ACTIVE){
+      dataToSend = dataToSend.substr(5, 4);
+      dataToSend = parseFloat(dataToSend);
+      console.log(dataToSend)
+      if(dataToSend > 50){
+        let mail = new email('Raspberry', 'temperature of raspberry over 50°');
+        mail.sendMail();
+      }
+    }
+  });
+}
+
+function getUpdate(socket) {
+  let exec = require('child_process').exec,
+    child;
+
+  child = exec("sh /var/www/html/stats/bash/cmd/update.bash", (err, out, stderr) => {
+    if (err) {
+      throw err;
+    }
+
+    if (out.includes('can be upgraded')) {
+      final = out.length;
+      start = final - 70;
+      out = out.slice(start, final - 42);
+    }
+
+    if (out.includes('are up to date')) {
+      out = 'All packages are up to date'
+    }
+
+    socket.emit('get-update-response', out);
+  });
+}
+
+function upgrade(socket) {
+  let exec = require('child_process').exec,
+    child;
+
+  child = exec("sh /var/www/html/stats/bash/cmd/upgrade.bash", (err, out, stderr) => {
+    if (err) {
+      throw err;
+    }
+
+    socket.emit('upgrade-response', 'All packages upgraded.');
   });
 }
