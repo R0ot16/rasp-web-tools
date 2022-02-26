@@ -23,6 +23,7 @@ class Config{
 
     MAIL_FROM = ""; // EMAIL TO SEND MESSAGE
     MAIL_TO = "" // EMAIL ADRESS WHO RECEIVE MESSAGE
+    
 }
 
 module.exports = Config;
