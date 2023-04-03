@@ -25,7 +25,7 @@ if (config.SECURE) {
 const url = config.URL_WEB;
 var io = require("socket.io")(server, {
   cors: {
-    origin: url
+    origin: 'http://192.168.1.21'
   },
   methods: ["GET", "POST"],
   transports: ['websocket', 'polling'],

@@ -13,7 +13,9 @@ if (SECURE) {
 } else {
     var socket = io.connect(URL_WEB + ':' + PORT_SOCKET, {
         withCredentials: true,
-        timeout: 90000
+        timeout: 90000,
+	rejectUnauthorized: false,
+	transports: ['websocket', 'polling']
     });
 }
 
