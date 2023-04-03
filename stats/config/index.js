@@ -1,6 +1,6 @@
 class Config{
 
-    DIR_STATS_LINK = "/var/www/html/rasp-web-tools/stats/bash"; // link to stats directory (if installtion not in root directory)
+    DIR_STATS_LINK = "/var/www/html/rasp-web-tools/stats/bash"; // link to stats directory (if installtion not in root directory you can change this here)
     
     URL_WEB = "192.168.1.21"; // Your raspberry's URL or IP 
     PORT_SOCKET = 3000; // Port of socket IO / Defaut : 3000
