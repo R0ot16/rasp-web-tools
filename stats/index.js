@@ -25,7 +25,7 @@ if (config.SECURE) {
 const url = config.URL_WEB;
 var io = require("socket.io")(server, {
   cors: {
-    origin: 'http://192.168.1.21'
+    origin: url
   },
   methods: ["GET", "POST"],
   transports: ['websocket', 'polling'],
@@ -58,7 +58,7 @@ server.listen(config.PORT_SOCKET, () => {
   startat = new Date();
 
   if (config.MAIL_ACTIVE) {
-    let mail = new email('Raspberry runned', 'Your raspberry is now online !');
+    let mail = new email('Rasp Web Tools Runned ! V0.3.4');
     mail.sendMail();
   }
 });
