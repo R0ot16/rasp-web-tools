@@ -31,7 +31,11 @@ socket.on('temp', (data) => {
 });
 
 socket.on('cpu', (data) => {
+    console.log("data:")
+    console.log(data)
+
     var jdata = JSON.parse(data);
+    console.log(jdata)
     var base = jdata.sysstat.hosts[0];
     var stats = jdata.sysstat.hosts[0].statistics[0];
     document.getElementById('systeme-distribution').innerHTML = base.sysname;
