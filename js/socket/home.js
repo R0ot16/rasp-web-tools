@@ -26,16 +26,10 @@ socket.on('temp', (data) => {
     setColor(dat, el);
     el.innerHTML = dat;
     var fl = parseFloat(dat);
-    myChart.data.datasets[0].data[2] = fl;
-    myChart.update();
 });
 
 socket.on('cpu', (data) => {
-    console.log("data:")
-    console.log(data)
-
     var jdata = JSON.parse(data);
-    console.log(jdata)
     var base = jdata.sysstat.hosts[0];
     var stats = jdata.sysstat.hosts[0].statistics[0];
     document.getElementById('systeme-distribution').innerHTML = base.sysname;
@@ -57,8 +51,6 @@ socket.on('cpu-usage', (data) => {
     var total = parseInt(totalcpu);
     setColor(total, cpu);
     cpu.innerHTML = parseInt(total) + "%"
-    myChart.data.datasets[0].data[0] = parseInt(total);
-    myChart.update();
 });
 
 socket.on("memory", (data) => {
@@ -67,8 +59,6 @@ socket.on("memory", (data) => {
     var per = parseInt(percent);
     setColor(per, mem);
     mem.innerHTML = per + "%";
-    myChart.data.datasets[0].data[1] = per;
-    myChart.update();
 });
 
 socket.on('log-true', () => {
@@ -112,21 +102,26 @@ socket.on('reboot-ok', () => {
 });
 
 socket.on('get-update-response', (ret) => {
-    pushNotif('Update', ret);
-    document.getElementById('progress-update').classList.add('hide');
-    document.getElementById('update-text').innerHTML = ret;
     if(ret.includes('can be upgraded')){
+        pushNotif('Update', "Raspberry can be upgraded.");
         document.getElementById('upgrade-button').classList.remove('hide');
     } else {
-        if(!document.getElementById('upgrade-button').classList.contains('hide')){
-            document.getElementById('upgrade-button').classList.add('hide');
+        if(ret.includes("err")){
+            pushNotif('Update', "Error when get update", true);
+        } else {
+            pushNotif('Update', "No update avalaible", true);
         }
+        document.getElementById('upgrade-button').classList.add('hide');
     }
+    document.getElementById('progress-update').classList.add('hide');
 });
 
 socket.on('upgrade-response', (ret) => {
-    console.log(ret);
-    pushNotif('Upgrade', 'Successfully upgraded !');
+    if(ret.includes("err")){
+        pushNotif('Upgrade', 'Error upgrade', true);
+    } else {
+        pushNotif('Upgrade', 'Successfully upgraded !');
+    }
     document.getElementById('progress-upgrade').classList.add('hide');
     document.getElementById('upgrade-text').innerHTML = ret;
 })

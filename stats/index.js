@@ -92,7 +92,7 @@ io.on('connect', (socket) => {
         child;
 
       socket.emit('reboot-run');
-      child = exec("sh /var/www/html/stats/bash/stats/reboot.bash", (err, out, stderr) => {
+      child = exec("sh "+config.DIR_STATS_LINK+"/stats/reboot.bash", (err, out, stderr) => {
         if (err) {
           throw err;
         }
@@ -107,7 +107,7 @@ io.on('connect', (socket) => {
         child;
 
       socket.emit('shutdown-run');
-      child = exec("sh /var/www/html/stats/bash/stats/shutdown.bash", (err, out, stderr) => {
+      child = exec("sh "+config.DIR_STATS_LINK+"/stats/shutdown.bash", (err, out, stderr) => {
         if (err) {
           throw err;
         }
@@ -122,7 +122,7 @@ io.on('connect', (socket) => {
         child;
 
       socket.emit('shutdown-canceled');
-      child = exec("sh /var/www/html/stats/bash/stats/cshutdown.bash", (err, out, stderr) => {
+      child = exec("sh "+config.DIR_STATS_LINK+"/stats/cshutdown.bash", (err, out, stderr) => {
         if (err) {
           throw err;
         }
@@ -177,7 +177,7 @@ function getMemory() {
   let exec = require('child_process').exec,
     child;
 
-  child = exec("sh /var/www/html/stats/bash/stats/mem.bash", (err, out, stderr) => {
+  child = exec("sh "+config.DIR_STATS_LINK+"/stats/mem.bash", (err, out, stderr) => {
     if (err) {
       throw err;
     }
@@ -191,7 +191,7 @@ function getUsageCpu() {
   let exec = require('child_process').exec,
     child;
 
-  child = exec("sh /var/www/html/stats/bash/stats/cpuusage.bash", (err, out, stderr) => {
+  child = exec("sh "+config.DIR_STATS_LINK+"/stats/cpuusage.bash", (err, out, stderr) => {
     if (err) {
       throw err;
     }
@@ -234,7 +234,7 @@ function getAllCpu() {
   let exec = require('child_process').exec,
     child;
 
-  child = exec("sh /var/www/html/stats/bash/stats/stats.bash", (err, out, stderr) => {
+  child = exec("sh "+config.DIR_STATS_LINK+"/stats/stats.bash", (err, out, stderr) => {
     if (err) {
       throw err;
     }
@@ -245,7 +245,7 @@ function getAllCpu() {
 
 function getTemp() {
   var dataToSend;
-  const python = spawn('python', ['/var/www/html/stats/bash/stats/temp.py']);
+  const python = spawn('python', [ config.DIR_STATS_LINK+"/stats/temp.py"]);
   python.stdout.on('data', function (data) {
     dataToSend = data.toString();
   });
@@ -266,7 +266,7 @@ function getUpdate(socket) {
   let exec = require('child_process').exec,
     child;
 
-  child = exec("sh /var/www/html/stats/bash/cmd/update.bash", (err, out, stderr) => {
+  child = exec("sh "+config.DIR_STATS_LINK+"/cmd/update.bash", (err, out, stderr) => {
     if (err) {
       throw err;
     }
@@ -289,7 +289,7 @@ function upgrade(socket) {
   let exec = require('child_process').exec,
     child;
 
-  child = exec("sh /var/www/html/stats/bash/cmd/upgrade.bash", (err, out, stderr) => {
+  child = exec("sh "+config.DIR_STATS_LINK+"/cmd/upgrade.bash", (err, out, stderr) => {
     if (err) {
       throw err;
     }

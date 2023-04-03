@@ -12,7 +12,7 @@
 - then type: Git clone https://github.com/R0ot16/rasp-web-tools/
 - Run install : "sudo sh install.sh"
 
-* If you obtain an error, please read the returned error. Maybe a missed installation.
+* If you obtain an error, please read the returned error.
 
 ## Configure 
 - Configure client in "./js/config.js"
