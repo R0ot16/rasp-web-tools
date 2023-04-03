@@ -1,0 +1,1 @@
+npm i --save && npm i --save chart.js

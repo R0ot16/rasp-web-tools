@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
-    "chart.js": "^4.2.1"
+    "chart.js": "^4.2.1",
+    "sysstat": "^0.2.0"
   }
 }
